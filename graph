@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+class Graph {
+private:
+    int numVertices;
+    std::vector<std::vector<int>> adjacencyList;
+
+public:
+    Graph(int n) : numVertices(n), adjacencyList(n) {}
+
+    void addEdge(int u, int v) {
+        adjacencyList[u].push_back(v);
+        adjacencyList[v].push_back(u);
+    }
+
+    std::vector<int> colorGraph() {
+        std::vector<int> colors(numVertices, -1);
+        int numColors = 0;
+
+        for (int vertex = 0; vertex < numVertices; vertex++) {
+            if (colors[vertex] == -1) {
+                std::unordered_set<int> usedColors;
+                for (int neighbor : adjacencyList[vertex]) {
+                    if (colors[neighbor] != -1) {
+                        usedColors.insert(colors[neighbor]);
+                    }
+                }
+
+                for (int color = 0; color < numColors; color++) {
+                    if (usedColors.find(color) == usedColors.end()) {
+                        colors[vertex] = color;
+                        break;
+                    }
+                }
+
+                if (colors[vertex] == -1) {
+                    colors[vertex] = numColors;
+                    numColors++;
+                }
+            }
+        }
+
+        return colors;
+    }
+};
+
+int main() {
+    int numVertices, numEdges;
+    std::cin >> numVertices >> numEdges;
+
+    Graph graph(numVertices);
+
+    for (int i = 0; i < numEdges; i++) {
+        int u, v;
+        std::cin >> u >> v;
+        graph.addEdge(u, v);
+    }
+
+    std::vector<int> colors = graph.colorGraph();
+
+    std::cout << colors.size() << std::endl;
+    for (int color : colors) {
+        std::cout << color << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}

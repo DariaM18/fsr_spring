@@ -1,0 +1,190 @@
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+class Graph {
+private:
+    int numVertices;
+    std::vector<std::vector<int>> adjacencyList;
+
+public:
+    Graph(int n) : numVertices(n), adjacencyList(n) {}
+
+    void addEdge(int u, int v) {
+        adjacencyList[u].push_back(v);
+        adjacencyList[v].push_back(u);
+    }
+
+    int colorGraph() {
+        std::vector<int> colors(numVertices, -1);
+        int numColors = 0;
+
+        for (int vertex = 0; vertex < numVertices; vertex++) {
+            if (colors[vertex] == -1) {
+                std::unordered_set<int> usedColors;
+                for (int neighbor : adjacencyList[vertex]) {
+                    if (colors[neighbor] != -1) {
+                        usedColors.insert(colors[neighbor]);
+                    }
+                }
+
+                for (int color = 0; color < numColors; color++) {
+                    if (usedColors.find(color) == usedColors.end()) {
+                        colors[vertex] = color;
+                        break;
+                    }
+                }
+
+                if (colors[vertex] == -1) {
+                    colors[vertex] = numColors;
+                    numColors++;
+                }
+            }
+        }
+
+        return numColors;
+    }
+};
+
+int main() {
+    int numVertices = 20;
+    Graph graph(numVertices);
+
+    graph.addEdge(0, 1);
+graph.addEdge(0, 2);
+graph.addEdge(0, 3);
+graph.addEdge(0, 4);
+graph.addEdge(0, 5);
+graph.addEdge(0, 7);
+graph.addEdge(0, 9);
+graph.addEdge(0, 10);
+graph.addEdge(0, 11);
+graph.addEdge(0, 12);
+graph.addEdge(0, 13);
+graph.addEdge(0, 16);
+graph.addEdge(0, 17);
+graph.addEdge(0, 18);
+graph.addEdge(1, 2);
+graph.addEdge(1, 4);
+graph.addEdge(1, 5);
+graph.addEdge(1, 6);
+graph.addEdge(1, 7);
+graph.addEdge(1, 10);
+graph.addEdge(1, 11);
+graph.addEdge(1, 12);
+graph.addEdge(1, 13);
+graph.addEdge(1, 14);
+graph.addEdge(1, 15);
+graph.addEdge(1, 16);
+graph.addEdge(1, 17);
+graph.addEdge(1, 18);
+graph.addEdge(1, 19);
+graph.addEdge(2, 4);
+graph.addEdge(2, 5);
+graph.addEdge(2, 6);
+graph.addEdge(2, 7);
+graph.addEdge(2, 12);
+graph.addEdge(2, 13);
+graph.addEdge(2, 14);
+graph.addEdge(2, 15);
+graph.addEdge(2, 16);
+graph.addEdge(2, 17);
+graph.addEdge(2, 18);
+graph.addEdge(2, 19);
+graph.addEdge(3, 4);
+graph.addEdge(3, 6);
+graph.addEdge(3, 7);
+graph.addEdge(3, 8);
+graph.addEdge(3, 9);
+graph.addEdge(3, 10);
+graph.addEdge(3, 15);
+graph.addEdge(3, 16);
+graph.addEdge(3, 18);
+graph.addEdge(3, 19);
+graph.addEdge(4, 10);
+graph.addEdge(4, 11);
+graph.addEdge(4, 12);
+graph.addEdge(4, 13);
+graph.addEdge(4, 14);
+graph.addEdge(4, 15);
+graph.addEdge(4, 16);
+graph.addEdge(4, 17);
+graph.addEdge(4, 18);
+graph.addEdge(5, 7);
+graph.addEdge(5, 8);
+graph.addEdge(5, 12);
+graph.addEdge(5, 13);
+graph.addEdge(5, 14);
+graph.addEdge(5, 15);
+graph.addEdge(5, 16);
+graph.addEdge(5, 17);
+graph.addEdge(5, 18);
+graph.addEdge(5, 19);
+graph.addEdge(6, 7);
+graph.addEdge(6, 9);
+graph.addEdge(6, 10);
+graph.addEdge(6, 11);
+graph.addEdge(6, 16);
+graph.addEdge(6, 17);
+graph.addEdge(6, 18);
+graph.addEdge(6, 19);
+graph.addEdge(7, 9);
+graph.addEdge(7, 11);
+graph.addEdge(7, 13);
+graph.addEdge(7, 17);
+graph.addEdge(7, 18);
+graph.addEdge(8, 10);
+graph.addEdge(8, 11);
+graph.addEdge(8, 12);
+graph.addEdge(8, 14);
+graph.addEdge(8, 15);
+graph.addEdge(8, 16);
+graph.addEdge(8, 18);
+graph.addEdge(8, 19);
+graph.addEdge(9, 11);
+graph.addEdge(9, 12);
+graph.addEdge(9, 14);
+graph.addEdge(9, 15);
+graph.addEdge(9, 16);
+graph.addEdge(9, 18);
+graph.addEdge(9, 19);
+graph.addEdge(10, 11);
+graph.addEdge(10, 15);
+graph.addEdge(10, 16);
+graph.addEdge(10, 18);
+graph.addEdge(10, 19);
+graph.addEdge(11, 12);
+graph.addEdge(11, 13);
+graph.addEdge(11, 14);
+graph.addEdge(11, 15);
+graph.addEdge(11, 16);
+graph.addEdge(11, 17);
+graph.addEdge(11, 19);
+graph.addEdge(12, 13);
+graph.addEdge(12, 14);
+graph.addEdge(12, 15);
+graph.addEdge(12, 18);
+graph.addEdge(12, 19);
+graph.addEdge(13, 14);
+graph.addEdge(13, 15);
+graph.addEdge(13, 16);
+graph.addEdge(13, 17);
+graph.addEdge(13, 18);
+graph.addEdge(14, 15);
+graph.addEdge(14, 17);
+graph.addEdge(14, 18);
+graph.addEdge(15, 17);
+graph.addEdge(15, 19);
+graph.addEdge(16, 17);
+graph.addEdge(16, 18);
+graph.addEdge(17, 18);
+graph.addEdge(17, 19);
+graph.addEdge(18, 19);
+   
+
+    int minColors = graph.colorGraph();
+
+    std::cout << "Minimum number of colors required: " << minColors << std::endl;
+
+    return 0;
+}
